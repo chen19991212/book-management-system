@@ -4,10 +4,10 @@ const HomePage = () => import('../views/home/Home.vue')
 const routes = [
   {
     path: '',
-    redirect: '/login-page'
+    redirect: '/home'
   },
   {
-    path: '/login-page',
+    path: '/login',
     component: LoginPage
   },
   {

@@ -14,6 +14,7 @@
             <i class="el-icon-user"></i>
           </span>
           <el-input 
+            ref="username"
             type="text" 
             placeholder="请输入用户名"
             v-model="loginForm.username" 
@@ -28,6 +29,7 @@
               <i class="el-icon-lock"></i>
             </span>
             <el-input 
+              ref="password"
               placeholder="请输入密码"
               :type="passwordType" 
               v-model="loginForm.password" 
@@ -40,7 +42,7 @@
             </span>
           </el-form-item>
         </el-tooltip>
-        <el-button type="primary" style="width:100%;margin-bottom:30px;">登录</el-button>
+        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
       </el-form>
     </div>
   </div>
@@ -78,11 +80,24 @@
         },
         passwordType: 'password',  //控制密码是否显示
         capsTooltip: false,    //大写提示是否显示
+        loading: false,
+        redirect: undefined,
+        otherQuery: {}
       };
+    },
+    mounted() {
+      if(this.loginForm.username === ''){
+        this.$refs.username.focus()
+      }else if (this.loginForm.password === ''){
+        this.$refs.password.focus()
+      }
     },
     methods: {
       showPwd(){
         this.passwordType = this.passwordType === "password" ? "text" : "password" 
+        this.$nextTick(() => {
+          this.$refs.password.focus()
+        })
       },
       checkCapsLock(e){
         const { key } = e
@@ -95,6 +110,45 @@
       inputBlur(event){
         const formItem = event.target.parentNode.parentNode.parentNode
         formItem.classList.remove("form-focus")
+      },
+      handleLogin(){
+        this.$refs.loginForm.validate(valid => {
+          if(valid){
+            this.loading = true
+            this.$store.dispatch('user/login',this.loginForm)
+              .then(()=>{
+                console.log(this.redirect,this.otherQuery);
+                this.$router.push('/home')
+               // this.$router.push({ path:this.redirect || '/', query:this.otherQuery })
+                this.loading = false
+              }).catch(() => {
+                this.loading = false
+              })
+          }else{
+            console.log('error submit!');
+            return false
+          }
+        })
+      },
+      getOtherQuery(query){
+        return Object.keys(query).reduce((acc,cur) => {
+          if(cur !== 'redirect') {
+            acc[cur] = query[cur]
+          }
+          return acc
+        },{})
+      }
+    },
+    watch: {
+      $route: {
+        handler: function(route){
+          const query = route.query
+          if(query){
+            this.redirect = query.redirect
+            this.otherQuery = this.getOtherQuery(query)
+          }
+        },
+        immediate: true
       }
     }
 };
