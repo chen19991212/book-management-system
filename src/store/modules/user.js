@@ -3,6 +3,10 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const state = {
   token: getToken(),
+  name: '',
+  avatar: '',
+  introduction: '',
+  roles: []
 }
 
 const mutations = {
@@ -45,10 +49,8 @@ const actions = {
         const {data} = res
         if(!data){
           reject('请重新登录')
-        }
-        console.log(data);
+        };
         const { roles, name, avatar, introduction } = data
-        console.log(roles);
         if(!roles || roles.length <= 0){
           reject('getInfo: roles must be a non-null array!')
         }
@@ -64,22 +66,24 @@ const actions = {
   },
   // user logout
   logout({ commit, state, dispatch }) {
-    return new Promise((resolve, reject) => {
+    /* return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
         removeToken()
         resetRouter()
 
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+
         dispatch('tagsView/delAllViews', null, { root: true })
 
         resolve()
       }).catch(error => {
         reject(error)
       })
-    })
+    }) */
+    commit('SET_TOKEN', '')
+    commit('SET_ROLES', [])
+    removeToken()
   },
 
   // remove token

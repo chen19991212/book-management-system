@@ -21,7 +21,6 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done() 
     } else {
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
-      console.log(hasRoles);
       if (hasRoles) {
         next()
       } else {
@@ -29,12 +28,9 @@ router.beforeEach(async(to, from, next) => {
           //roles为权限信息
           const { roles } = await store.dispatch('user/getUserInfo')
           
-          //const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
-          //console.log(accessRoutes);
-          //router.addRoutes(accessRoutes)
-          console.log(to);
-          //next({ ...to, replace: true })
-          next()
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          router.addRoutes(accessRoutes)
+          next({ ...to, replace: true })
         } catch (error) {
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')

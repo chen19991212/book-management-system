@@ -71,8 +71,8 @@
       }
       return {
         loginForm: {
-          username: '',
-          password: ''
+          username: 'admin',
+          password: 'admin'
         },
         loginRules:{
           username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -118,8 +118,8 @@
             this.$store.dispatch('user/login',this.loginForm)
               .then(()=>{
                 console.log(this.redirect,this.otherQuery);
-                this.$router.push('/home')
-               // this.$router.push({ path:this.redirect || '/', query:this.otherQuery })
+                //this.$router.push('/home')
+               this.$router.push({ path:this.redirect || '/', query:this.otherQuery })
                 this.loading = false
               }).catch(() => {
                 this.loading = false
@@ -155,33 +155,36 @@
 </script>
   
 <style lang="less">
-  .el-form-item{
-    border: 1px solid rgba(255,255,255, .1);
-    .el-form-item__content{
-      height: 48px;
-      line-height: 40px;
-      .el-input{
-        width: 85%;
+  .login-page{
+    .el-form-item{
+      border: 1px solid rgba(255,255,255, .1);
+      .el-form-item__content{
         height: 48px;
-        input{
-          background: transparent;
-          border: 0;
-          color: #fff;
+        line-height: 40px;
+        .el-input{
+          width: 85%;
           height: 48px;
-        }
-        input::-webkit-input-placeholder {
-          color: #909399;
+          input{
+            background: transparent;
+            border: 0;
+            color: #fff;
+            height: 48px;
+          }
+          input::-webkit-input-placeholder {
+            color: #909399;
+          }
         }
       }
+      
     }
-    
+    .el-form-item {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      color: #454545;
+    }
   }
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
+  
 </style>
 
 <style lang="less" scoped>

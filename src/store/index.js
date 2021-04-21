@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import getters from './getters';
 Vue.use(Vuex)
 
-import getters from './getters';
+
 
 const modulesFiles = require.context('./modules',true,/\.js$/)
-console.log(modulesFiles.keys().modules);
-
 //modulesFiles.keys()得到一个moduels文件夹的文件路径的数组
 const modules = modulesFiles.keys().reduce((modules,modulePath) => {
   // './app.js' => 'app'
@@ -16,8 +15,8 @@ const modules = modulesFiles.keys().reduce((modules,modulePath) => {
   modules[moduleName] = value.default
   return modules
 },{})
-
-export default new Vuex.Store({
+const store = new Vuex.Store({
   modules,
   getters
 })
+export default store 
