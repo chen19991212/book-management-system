@@ -61,7 +61,6 @@ export default {
     //上传成功事件
     onSuccess(response, file) {
       const { code, msg, data } = response
-      console.log(data);
       if (code === 0) {
         this.$message({
           message: msg,

@@ -134,6 +134,30 @@
 import Sticky from '@/components/Sticky';
 import EbookUpload from '@/components/EbookUpload'
 import MdInput from '@/components/MDinput'
+import {createBook} from '@/api/book';
+
+const defaultForm = {
+  title: '',
+  author: '',
+  publisher: '',
+  language: '',
+  rootFile: '',
+  cover: '',
+  url: '',
+  originalName: '',
+  contents: '',
+  contentsTree: '',
+  fileName: '',
+  coverPath: '',
+  filePath: '',
+  unzipPath: ''
+}
+const fields = {
+  title: '书名',
+  author: '作者',
+  pulisher: '出版社',
+  language: '语言'
+}
   export default {
     name:'',
     components:{
@@ -146,9 +170,9 @@ import MdInput from '@/components/MDinput'
     },
     data() {
       const validateRequire = (rule, value, callback) => {
-        if (value.length === 0) {
+        if(value.length === 0){
           callback(new Error(fields[rule.field] + '必须填写'))
-        } else {
+        }else{
           callback()
         }
       }
@@ -158,11 +182,11 @@ import MdInput from '@/components/MDinput'
         fileList: [],
         labelWidth: '120px',
         contentsTree: [],
-        rules: {
-          title: [{ validator: validateRequire }],
-          author: [{ validator: validateRequire }],
-          language: [{ validator: validateRequire }],
-          publisher: [{ validator: validateRequire }]
+        rules:{
+          title: [{validator: validateRequire}],
+          author: [{validator: validateRequire}],
+          language: [{validator: validateRequire}],
+          pulisher: [{validator: validateRequire}]
         }
       };
     },
@@ -170,27 +194,60 @@ import MdInput from '@/components/MDinput'
       showGuide(){
         console.log('show guide');
       },
+      //新增电子书，提交表单
       submitForm() {
-        this.loading = true
-        setTimeout(()=>{
-          this.loading = false
-
-        },1000)
+        if(!this.loading){
+          this.loading = true
+          this.$refs.postForm.validate((valid, fields) => {
+            if(valid){
+              const book = {...this.postForm}
+              //delete book.contents
+              delete book.contentsTree
+              if(!this.isEdit){
+                createBook(book).then(res => {
+                  const {msg} = res
+                  this.$message({
+                    type: 'success',
+                    message: msg,
+                  })
+                  this.loading = false
+                  this.setDefault()
+                }).catch(()=> {
+                  this.loading = false
+                })
+                
+              }else{
+                //updateBook(book)
+              }
+            }else{
+              const message = fields[Object.keys(fields)[0]][0].message
+              this.$message({ message,type: 'error'})
+              this.loading = false
+            }
+          })
+        }
       },
       onUploadSuccess(data) {
-        console.log('onUploadSuccess');
-        //this.setData(data)
+        console.log('onUploadSuccess',data);
+        this.setData(data)
       },
       onUploadRemove() {
         console.log('onUploadRemove');
-        //this.setDefault()
+        this.setDefault()
       },
       setDefault(){
+        //this.postForm = Object.assign({}, defaultForm)
         this.contentsTree = []
         this.fileList = []
         this.$refs.postForm.resetFields()
       },
+
+      //章节节点点击事件
       onContentClick(data) {
+        console.log(data);
+        if(data.text){
+          window.open(data.text)
+        }
       },
       setData(data){
         const {
