@@ -1,32 +1,5 @@
 import Layout from '@/layout';
-/* import Layout from '@/layout';
-const LoginPage = () => import('../views/login/LoginPage.vue')
-const HomePage = () => import('../views/home/Home.vue')
-const routes = [
-  {
-    path: '/',
-    redirect: '/home'
-  },
-  {
-    path: '/login',
-    component: LoginPage
-  },
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/home',
-    children: [
-      {
-        path: 'home',
-        component: HomePage,
-        name: 'Home',
 
-      }
-    ]
-    
-  }
-]
-export default routes */
 export const constantRoutes = [
   {
     path: '/login',
@@ -42,7 +15,7 @@ export const constantRoutes = [
         path: 'home',
         component: () => import('@/views/home/Home.vue'),
         name: 'Home',
-        meta: { title: 'Home', affix: true }
+        meta: { title: '首页', affix: true }
       }
     ]
     

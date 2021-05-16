@@ -1,7 +1,7 @@
 <template>
   <el-form ref="postForm" :model="postForm" :rules="rules" class="detail">
     <sticky :class-name="'sub-navbar'">
-      <el-button v-if="!isEdit" @click="showGuide">显示帮助</el-button>
+      <!-- <el-button v-if="!isEdit" @click="showGuide">显示帮助</el-button> -->
       <el-button
         :loading="loading"
         type="success"
@@ -41,6 +41,24 @@
                 <el-input
                   v-model="postForm.publisher"
                   placeholder="出版社"
+                />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item prop="coverPath" label="分类：" :label-width="labelWidth">
+                <el-input
+                  v-model="postForm.categoryText"
+                  placeholder="分类"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="coverPath" label="分类编号" :label-width="labelWidth">
+                <el-input
+                  v-model="postForm.category"
+                  placeholder="分类编号"
                 />
               </el-form-item>
             </el-col>
@@ -134,7 +152,7 @@
 import Sticky from '@/components/Sticky';
 import EbookUpload from '@/components/EbookUpload'
 import MdInput from '@/components/MDinput'
-import {createBook} from '@/api/book';
+import {createBook,getBook,updateBook,removeBook} from '@/api/book';
 
 const defaultForm = {
   title: '',
@@ -170,7 +188,7 @@ const fields = {
     },
     data() {
       const validateRequire = (rule, value, callback) => {
-        if(value.length === 0){
+        if(!value || value.length === 0){
           callback(new Error(fields[rule.field] + '必须填写'))
         }else{
           callback()
@@ -190,9 +208,15 @@ const fields = {
         }
       };
     },
+    created(){
+      if(this.isEdit){
+        const fileName = this.$route.params.fileName
+        this.getBookData(fileName)
+      }
+    },
     methods: {
       showGuide(){
-        console.log('show guide');
+        //console.log('show guide');
       },
       //新增电子书，提交表单
       submitForm() {
@@ -217,7 +241,16 @@ const fields = {
                 })
                 
               }else{
-                //updateBook(book)
+                updateBook(book).then(res => {
+                  const {msg} = res
+                  this.$message({
+                    type: 'success',
+                    message: msg,
+                  })
+                  this.loading = false
+                }).catch(()=> {
+                  this.loading = false
+                })
               }
             }else{
               const message = fields[Object.keys(fields)[0]][0].message
@@ -227,12 +260,15 @@ const fields = {
           })
         }
       },
+      //上传成功回调
       onUploadSuccess(data) {
         console.log('onUploadSuccess',data);
         this.setData(data)
       },
+      //移除电子书回调
       onUploadRemove() {
-        console.log('onUploadRemove');
+        console.log('onUploadRemove',this.postForm);
+        removeBook(this.postForm)
         this.setDefault()
       },
       setDefault(){
@@ -244,7 +280,6 @@ const fields = {
 
       //章节节点点击事件
       onContentClick(data) {
-        console.log(data);
         if(data.text){
           window.open(data.text)
         }
@@ -264,7 +299,9 @@ const fields = {
           fileName,
           coverPath,
           filePath,
-          unzipPath
+          unzipPath,
+          category,
+          categoryText
         } = data
         this.postForm = {
           ...this.postForm,
@@ -281,11 +318,19 @@ const fields = {
           fileName,
           coverPath,
           filePath,
-          unzipPath
+          unzipPath,
+          category: category || 99,
+          categoryText: categoryText || '自定义'
         }
         this.contentsTree = contentsTree
         this.fileList = [{ name: originalName || fileName, url}]
       },
+      //编辑电子书：获取电子书数据
+      getBookData(fileName){
+        getBook(fileName).then(res => {
+          this.setData(res.data)
+        })
+      }
       
     }
 };

@@ -35,6 +35,7 @@
               v-model="loginForm.password" 
               autocomplete="on"
               @keyup.native="checkCapsLock"
+              @keydown.enter.native="handleLogin"
               @focus="inputFocus"
               @blur="inputBlur"/>
             <span class="show-pwd" @click="showPwd">
@@ -137,7 +138,14 @@
           }
           return acc
         },{})
-      }
+      },
+      /* tabFocus(e){
+        const { key }  = e
+        if(key.toLowerCase() === 'tab'){
+          console.log('tab');
+          this.$refs.password.focus()
+        }
+      } */
     },
     watch: {
       $route: {

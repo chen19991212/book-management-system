@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 
 import './permission'
+import * as echarts from 'echarts';
 
 import { 
   Form, 
@@ -22,7 +23,17 @@ import {
   Col,
   Upload,
   Message,
-  Tree
+  Tree,
+  Table,
+  TableColumn,
+  Pagination,
+  Select,
+  Option,
+  Checkbox,
+  MessageBox,
+  Notification,
+  Tabs,
+  TabPane
 } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/index.less'
@@ -47,10 +58,22 @@ Vue.use(Col)
 Vue.use(Upload)
 //Vue.use(Message)
 Vue.use(Tree)
+Vue.use(Table)
+Vue.use(Pagination)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Checkbox)
+Vue.use(TableColumn)
+Vue.use(Tabs)
+Vue.use(TabPane)
+
 
 
 
 Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$notify = Notification
+Vue.prototype.$echarts = echarts
 
 
 Vue.config.productionTip = false
