@@ -4,7 +4,8 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/LoginPage.vue'),
-    hidden: true
+    hidden: true,
+    meta: { title: '图书后台管理系统'}
   },
   {
     path: '/',

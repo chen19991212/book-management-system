@@ -1,5 +1,6 @@
 import { login, getUserInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import router, { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
@@ -81,9 +82,16 @@ const actions = {
         reject(error)
       })
     }) */
-    commit('SET_TOKEN', '')
-    commit('SET_ROLES', [])
-    removeToken()
+    try{
+      commit('SET_TOKEN', '')
+      commit('SET_ROLES', [])
+      removeToken()
+      resetRouter()
+    }catch(e){
+      console.log(e);
+    }
+    
+    
   },
 
   // remove token

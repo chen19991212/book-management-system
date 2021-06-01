@@ -22,7 +22,6 @@ import pathToRegexp from 'path-to-regexp';
         if(route.path.startsWith('/redirect/')){
           return 
         }
-        console.log('route');
         this.getBreadcrumb()
       }
     },

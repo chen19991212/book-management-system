@@ -1,4 +1,12 @@
 module.exports = {
+  publicPath: './',
+  lintOnSave: false,
+  outputDir: 'dist',
+  /* devServer:{
+    host: '169.254.55.244',
+    hot: true,
+    disableHostCheck: true
+  }, */
   configureWebpack:{
     resolve:{
       alias:{
@@ -9,7 +17,8 @@ module.exports = {
         'views':'@/views',
         'utils':'@/utils',
         'api':'@/api',
-        'layout':'@/layout'
+        'layout':'@/layout',
+        'router': '@/router'
       }
     }
   },

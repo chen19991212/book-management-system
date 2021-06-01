@@ -55,7 +55,6 @@ import RecordList from './components/RecordList';
           this.monthTotal = data.monthTotal
           this.year = data.year
           this.yearTotal = data.yearTotal
-          console.log(this.monthTotal,this.yearTotal);
         }
       })
       getCategoryData().then(res => {

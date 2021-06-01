@@ -119,9 +119,9 @@
           <span>{{ filePath | valueFilter }}</span>
         </template>
       </el-table-column>
-      <el-table-column  label="封面路径" prop="coverPath" width="100" align="center">
-        <template slot-scope="{ row:{ coverPath }}">
-          <span>{{ coverPath | valueFilter }}</span>
+      <el-table-column  label="封面路径" prop="cover" width="100" align="center">
+        <template slot-scope="{ row:{ cover }}">
+          <span>{{ cover | valueFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column  label="解压路径" prop="unzipPath" width="100" align="center">
@@ -144,6 +144,7 @@
         width="120"
         align="center"
         fixed="right"
+        v-if="isAdmin"
       >
         <template slot-scope="{ row }">
           <el-button type="text" icon="el-icon-edit" @click="handleUpdate(row)" />
@@ -185,7 +186,8 @@ let _this;
         categoryList: [],
         tableKey: 0,
         list: [],
-        total: 0
+        total: 0,
+        isAdmin: false
       };
     },
     beforeCreate(){
@@ -193,6 +195,7 @@ let _this;
     },
     created(){
       this.parseQuery()
+      this.isAdmin = this.$store.getters.roles[0] === 'admin' ? true : false
     },
     mounted(){
       this.getCategoryList()
@@ -228,6 +231,7 @@ let _this;
       //发送请求
       getList(){
         listBook(this.listQuery).then(res => {
+          console.log(res.data);
           const { list, count, page, pageSize} = res.data
           this.list = list
           this.total = count

@@ -324,6 +324,7 @@ const fields = {
         }
         this.contentsTree = contentsTree
         this.fileList = [{ name: originalName || fileName, url}]
+        console.log(this.postForm);
       },
       //编辑电子书：获取电子书数据
       getBookData(fileName){

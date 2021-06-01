@@ -30,11 +30,14 @@ router.beforeEach(async(to, from, next) => {
           
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
           router.addRoutes(accessRoutes)
+          console.log(router
+            );
+          console.log(router.getRoutes());
           next({ ...to, replace: true })
         } catch (error) {
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
-          next(`/login?redirect=${to.path}`)
+          next(`/login`)
           NProgress.done()
         }
       }
@@ -43,7 +46,7 @@ router.beforeEach(async(to, from, next) => {
     if (whiteList.indexOf(to.path) !== -1) {
       next()
     } else {
-      next(`/login?redirect=${to.path}`)
+      next(`/login`)
       NProgress.done()
     }
   }

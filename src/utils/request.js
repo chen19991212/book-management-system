@@ -5,7 +5,6 @@ import { getToken } from '@/utils/auth'
 
 
 const service = axios.create({
-  //baseURL: process.env.VUE_APP_BASE_API,
   baseURL: 'http://localhost:5000',
   timeout: 50000
 })
@@ -34,7 +33,7 @@ service.interceptors.response.use(
         duration: 5*1000
       })
 
-      if(res.code === 50008 || res.code === 50012 || res.codde === 50014){
+      if(res.code === 50008 || res.code === 50012 || res.code === 50014){
         MessageBox.confirm('Token已失效，是否重新登录', '确认登出',{
           confirmButtonText: '重新登录',
           cancelButtonText: '取消',

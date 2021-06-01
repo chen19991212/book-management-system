@@ -52,7 +52,6 @@ import {weekOption,monthOption,yearOption} from './chartOptions';
     watch:{
       data(value){
         this.renderChart()
-        console.log(value);
       }
     }
 };

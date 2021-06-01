@@ -72,8 +72,8 @@
       }
       return {
         loginForm: {
-          username: 'admin',
-          password: 'admin'
+          username: '',
+          password: ''
         },
         loginRules:{
           username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -118,7 +118,6 @@
             this.loading = true
             this.$store.dispatch('user/login',this.loginForm)
               .then(()=>{
-                console.log(this.redirect,this.otherQuery);
                 //this.$router.push('/home')
                this.$router.push({ path:this.redirect || '/', query:this.otherQuery })
                 this.loading = false
@@ -139,13 +138,6 @@
           return acc
         },{})
       },
-      /* tabFocus(e){
-        const { key }  = e
-        if(key.toLowerCase() === 'tab'){
-          console.log('tab');
-          this.$refs.password.focus()
-        }
-      } */
     },
     watch: {
       $route: {

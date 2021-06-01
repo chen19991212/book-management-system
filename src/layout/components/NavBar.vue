@@ -19,9 +19,8 @@ import Breadcrumb from '@/components/Breadcrumb';
     },
     methods: {
       async logout(){
-        console.log('click');
         await this.$store.dispatch('user/logout')
-        this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+        this.$router.push(`/login`)
       }
     }
 };
