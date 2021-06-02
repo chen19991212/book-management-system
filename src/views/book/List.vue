@@ -107,9 +107,12 @@
         width="150"
         align="center"
       >
-        <template slot-scope="{ row: { cover }}">
-          <a :href="cover" target="_blank">
+        <template slot-scope="{ row: { cover,coverPath }}">
+          <a v-if="coverPath" :href="cover" target="_blank">
             <img :src="cover" style="width: 120px;height: 180px;">
+          </a>
+          <a v-else :href="image" target="_blank">
+            <img :src="image" style="width: 120px;height: 180px;">
           </a>
         </template>
       </el-table-column>
@@ -165,6 +168,7 @@
 import Pagination from '@/components/Pagination';
 import {getCategory,listBook,deleteBook} from '@/api/book';
 
+
 let _this;
   export default {
     name:'List',
@@ -187,7 +191,8 @@ let _this;
         tableKey: 0,
         list: [],
         total: 0,
-        isAdmin: false
+        isAdmin: false,
+        image: require("@/assets/image/image.jpg")
       };
     },
     beforeCreate(){
@@ -238,7 +243,6 @@ let _this;
           this.list.forEach( book => {
             book.titleWrapper = this.wrapperKeyword('title',book.title)
             book.authorWrapper = this.wrapperKeyword('author',book.author)
-            //console.log(book.cover);
           })
         })
       },
