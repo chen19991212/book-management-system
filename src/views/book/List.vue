@@ -122,9 +122,9 @@
           <span>{{ filePath | valueFilter }}</span>
         </template>
       </el-table-column>
-      <el-table-column  label="封面路径" prop="cover" width="100" align="center">
-        <template slot-scope="{ row:{ cover }}">
-          <span>{{ cover | valueFilter }}</span>
+      <el-table-column  label="封面路径" prop="coverPath" width="100" align="center">
+        <template slot-scope="{ row:{ coverPath }}">
+          <span>{{ coverPath | valueFilter }}</span>
         </template>
       </el-table-column>
       <el-table-column  label="解压路径" prop="unzipPath" width="100" align="center">
