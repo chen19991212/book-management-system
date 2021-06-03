@@ -212,7 +212,7 @@ let _this;
         const listQuery = {
           page: 1,
           pageSize: 20,
-          sort: '+id'
+          sort: '-id'
         }
         this.listQuery = { ...listQuery, ...this.listQuery}
       },
