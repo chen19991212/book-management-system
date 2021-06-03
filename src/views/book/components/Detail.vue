@@ -268,7 +268,7 @@ const fields = {
       //移除电子书回调
       onUploadRemove() {
         console.log('onUploadRemove',this.postForm);
-        removeBook(this.postForm)
+        //removeBook(this.postForm)
         this.setDefault()
       },
       setDefault(){
