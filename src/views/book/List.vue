@@ -73,7 +73,7 @@
       <el-table-column 
         label="ID"
         prop="id"
-        sortable
+        sortable="custom"
         align="center"
         width="80"
       />
