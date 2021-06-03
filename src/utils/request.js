@@ -5,8 +5,8 @@ import { getToken } from '@/utils/auth'
 
 
 const service = axios.create({
-  //baseURL: 'http://localhost:5000',
-  baseURL: 'http://121.41.178.240:5000',
+  //baseURL: 'http://localhost:5001',
+  baseURL: 'http://121.41.178.240:5001',
   timeout: 50000
 })
 //请求拦截器
