@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      action: `http://localhost:5000/book/upload`
+      action: `http://121.41.178.240:5000/book/upload`
     }
   },
   computed: {
