@@ -5,9 +5,7 @@
       <div :class="{'fixed-header':fixedHeader}">
         <NavBar />
       </div>
-      <keep-alive>
         <router-view></router-view>
-      </keep-alive>
     </div>
     
     
