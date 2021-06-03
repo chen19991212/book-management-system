@@ -113,8 +113,10 @@
         formItem.classList.remove("form-focus")
       },
       handleLogin(){
+        console.log(111);
         this.$refs.loginForm.validate(valid => {
           if(valid){
+            console.log(2222);
             this.loading = true
             this.$store.dispatch('user/login',this.loginForm)
               .then(()=>{
