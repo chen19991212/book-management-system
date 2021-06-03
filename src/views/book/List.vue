@@ -66,13 +66,14 @@
       fit 
       highlight-current-row
       style="width: 100%"
+      :default-sort="{prop: 'id',order: 'descending'}"
       @sort-change="sortChange"
     >
       <!-- ID -->
       <el-table-column 
         label="ID"
         prop="id"
-        sortable="custom"
+        sortable
         align="center"
         width="80"
       />
